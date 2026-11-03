@@ -1,12 +1,16 @@
 import { createMCPClient } from '@ai-sdk/mcp';
-import { getToken } from '@vercel/connect';
-import { ConsentRequiredError } from '@vercel/connect/ai-sdk';
+import {
+  getToken,
+  startAuthorization,
+  UserAuthorizationRequiredError,
+} from '@vercel/connect';
+
+const connector = 'scl_Sldu7yLu3itNludDDYNHg';
+const subject = { type: 'user', id: 'test_user_1' };
 
 export async function GET() {
   try {
-    const token = await getToken('scl_Sldu7yLu3itNludDDYNHg', {
-      subject: { type: 'user', id: 'test_user_1' },
-    });
+    const token = await getToken(connector, { subject });
 
     const cookieyes = await createMCPClient({
       transport: {
@@ -23,13 +27,11 @@ export async function GET() {
       await cookieyes.close();
     }
   } catch (error) {
-    if (
-      error instanceof ConsentRequiredError ||
-      error?.name === 'ConsentRequiredError'
-    ) {
-      return Response.redirect(error.url);
+    if (error instanceof UserAuthorizationRequiredError) {
+      const { url } = await startAuthorization(connector, { subject });
+      return Response.redirect(url);
     }
-        return Response.json(
+    return Response.json(
       { error: error?.name, message: error?.message },
       { status: 500 }
     );
