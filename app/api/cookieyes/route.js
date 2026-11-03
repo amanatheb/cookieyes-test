@@ -29,6 +29,9 @@ export async function GET() {
     ) {
       return Response.redirect(error.url);
     }
-    throw error;
+        return Response.json(
+      { error: error?.name, message: error?.message },
+      { status: 500 }
+    );
   }
 }
