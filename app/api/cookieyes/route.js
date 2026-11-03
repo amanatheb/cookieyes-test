@@ -9,9 +9,8 @@ export async function GET() {
     const cookieyes = await createMCPClient({
       transport: {
         type: 'http',
-        url: 'https://app.cookieyes.com/mcp',
-        authProvider: connectAuthProvider('scl_Sldu7yLu3itNludDDYNHg
-', {
+                url: 'https://app.cookieyes.com/mcp',
+        authProvider: connectAuthProvider('scl_Sldu7yLu3itNludDDYNHg', {
           subject: { type: 'user', id: 'test_user_1' },
         }),
       },
