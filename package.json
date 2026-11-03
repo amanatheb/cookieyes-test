@@ -1,0 +1,16 @@
+{
+  "name": "cookieyes-test",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@vercel/connect": "latest",
+    "@ai-sdk/mcp": "latest"
+  }
+}
